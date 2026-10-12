@@ -1,12 +1,17 @@
 __pycache__/
 *.pyc
+.pytest_cache/
 .env
 *.mp3
 
-# never commit secrets or local environments
-api-gemini.txt
+# local environments
+.venv/
 venv/
-*.onnx
 
-# the older src/ rewrite lives here; not part of this project
-VisitorGuideBot-main/
+# database (contains staff accounts and content) -- back it up, don't commit it
+data/*.db
+data/*.db-*
+
+# never commit secrets
+api-gemini.txt
+*.onnx
