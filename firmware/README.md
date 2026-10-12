@@ -10,3 +10,5 @@ Build settings that worked: board "ESP32 Dev Module", esp32 core 2.0.17, SensorL
 
 Allowed action groups: 0 (stand), 9 (wave), 10 (bow), 124-127 (pointing).
 Must match ALLOWED_GROUPS in robot/robot_motion.py.
+
+The recorded pointing motions (.rob files) and how to restore them: see `motions/README.md`.
