@@ -75,3 +75,8 @@ def test_staff_edit_reaches_the_next_question():
     reply = f"[PLACE:{elevator['id']}]\nהמעליות משמאל, ליד הקפיטריה."
     action = brain.decide(brain.parse_reply(reply), snapshot["places"])
     assert action.gesture_id == 126 and action.say == "המעליות משמאל, ליד הקפיטריה."
+
+
+def test_prompt_forbids_invented_directions():
+    prompt = brain.build_system_prompt({"places": PLACES, "knowledge": [], "events": []})
+    assert "בכיוון שאני מצביע אליו" in prompt and "אל תמציא כיוונים" in prompt
