@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}משתמשים{% endblock %}
+{% block content %}
+<h2>משתמשים</h2>
+<table>
+  <thead><tr><th>שם משתמש</th><th>שם מלא</th><th>נוצר</th></tr></thead>
+  <tbody>{% for u in users %}<tr><td>{{ u.username }}</td><td>{{ u.full_name or '' }}</td><td>{{ u.created_at[:10] }}</td></tr>{% endfor %}</tbody>
+</table>
+<div class="grid">
+  <article>
+    <h4>הוספת משתמש</h4>
+    <form method="post" action="/users/new">
+      <input name="username" placeholder="שם משתמש" required>
+      <input name="full_name" placeholder="שם מלא">
+      <input type="password" name="password" placeholder="סיסמה (לפחות 6 תווים)" required minlength="6">
+      <button type="submit">הוספה</button>
+    </form>
+  </article>
+  <article>
+    <h4>החלפת הסיסמה שלי</h4>
+    <form method="post" action="/users/password">
+      <input type="password" name="password" placeholder="סיסמה חדשה" required minlength="6">
+      <input type="password" name="password2" placeholder="שוב סיסמה חדשה" required minlength="6">
+      <button type="submit">עדכון</button>
+    </form>
+  </article>
+</div>
+{% endblock %}

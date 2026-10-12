@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ 'אירוע חדש' if is_new else 'עריכת אירוע' }}{% endblock %}
+{% block content %}
+<h2>{{ 'אירוע חדש' if is_new else 'עריכת אירוע' }}</h2>
+<form method="post" action="{{ '/events/new' if is_new else '/events/' ~ event.id }}">
+  <label>כותרת *<input name="title" value="{{ event.title or '' }}" required></label>
+  <label>תיאור <textarea name="description" rows="2">{{ event.description or '' }}</textarea></label>
+  <label>מרצה <input name="lecturer" value="{{ event.lecturer or '' }}"></label>
+  <div class="grid">
+    <label>תאריך *<input type="date" name="date" value="{{ event.date or '' }}" required></label>
+    <label>שעת התחלה *<input type="time" name="start_time" value="{{ event.start_time or '' }}" required></label>
+    <label>שעת סיום *<input type="time" name="end_time" value="{{ event.end_time or '' }}" required></label>
+  </div>
+  <label>מקום
+    <select name="place_id">
+      <option value="">ללא מקום</option>
+      {% for p in places %}
+      <option value="{{ p.id }}" {% if event.place_id and event.place_id|string == p.id|string %}selected{% endif %}>{{ p.name }}</option>
+      {% endfor %}
+    </select></label>
+  <label><input type="checkbox" role="switch" name="is_active" {% if event.is_active %}checked{% endif %}> פעיל</label>
+  <div class="row-actions"><button type="submit">שמירה</button><a href="/events" role="button" class="secondary outline">ביטול</a></div>
+</form>
+{% endblock %}

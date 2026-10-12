@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}לוח זמנים{% endblock %}
+{% block content %}
+<div class="page-head"><h2>לוח זמנים ליום הפתוח</h2><a href="/events/new" role="button">+ אירוע חדש</a></div>
+<p>הרובוט מזכיר רק אירועים פעילים של היום שעוד לא הסתיימו.</p>
+<table>
+  <thead><tr><th>תאריך</th><th>שעות</th><th>כותרת</th><th>מרצה</th><th>מקום</th><th>פעיל</th><th></th></tr></thead>
+  <tbody>
+  {% for e in events %}
+  <tr class="{{ '' if e.is_active else 'inactive' }}">
+    <td>{{ e.date }}</td><td>{{ e.start_time }}–{{ e.end_time }}</td>
+    <td><a href="/events/{{ e.id }}">{{ e.title }}</a></td>
+    <td>{{ e.lecturer or '' }}</td><td>{{ e.place_name or '—' }}</td>
+    <td>{{ 'כן' if e.is_active else 'לא' }}</td>
+    <td><div class="row-actions">
+      <a href="/events/{{ e.id }}" role="button" class="secondary outline">עריכה</a>
+      <form method="post" action="/events/{{ e.id }}/delete" onsubmit="return confirm('למחוק את האירוע?')">
+        <button class="secondary">מחיקה</button></form>
+    </div></td>
+  </tr>
+  {% else %}<tr><td colspan="7">עדיין אין אירועים.</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

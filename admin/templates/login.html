@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}כניסה{% endblock %}
+{% block content %}
+<article style="max-width: 420px; margin: 4rem auto;">
+  <h2>🤖 כניסה לניהול הרובוט המדריך</h2>
+  <form method="post" action="/login">
+    <label>שם משתמש <input name="username" value="{{ username or '' }}" required autofocus></label>
+    <label>סיסמה <input type="password" name="password" required></label>
+    <button type="submit">כניסה</button>
+  </form>
+</article>
+{% endblock %}

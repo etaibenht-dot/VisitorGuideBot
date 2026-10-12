@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}שאלות שלא נענו{% endblock %}
+{% block content %}
+<div class="page-head"><h2>שאלות שהרובוט לא ידע לענות עליהן</h2>
+  <a href="/unanswered?show={{ 'all' if show == 'new' else 'new' }}">{{ 'הצג גם שאלות שטופלו' if show == 'new' else 'הצג רק חדשות' }}</a></div>
+<table>
+  <thead><tr><th>מתי</th><th>שאלה</th><th>סטטוס</th><th></th></tr></thead>
+  <tbody>
+  {% for q in questions %}
+  <tr class="{{ '' if q.status == 'new' else 'inactive' }}">
+    <td>{{ q.asked_at.replace('T', ' ') }}</td>
+    <td>{{ q.question_text }}</td>
+    <td>{{ 'חדשה' if q.status == 'new' else 'טופלה' }}</td>
+    <td><div class="row-actions">
+      <a href="/knowledge/new?from_unanswered={{ q.id }}" role="button">הוסף למאגר</a>
+      {% if q.status == 'new' %}<form method="post" action="/unanswered/{{ q.id }}/handled"><button class="secondary outline">טופל</button></form>{% endif %}
+      <form method="post" action="/unanswered/{{ q.id }}/delete" onsubmit="return confirm('למחוק את השאלה?')"><button class="secondary">מחיקה</button></form>
+    </div></td>
+  </tr>
+  {% else %}<tr><td colspan="4">אין שאלות להצגה.</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

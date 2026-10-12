@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ 'מקום חדש' if is_new else 'עריכת מקום' }}{% endblock %}
+{% block content %}
+<h2>{{ 'מקום חדש' if is_new else 'עריכת מקום' }}</h2>
+<form method="post" action="{{ '/places/new' if is_new else '/places/' ~ place.id }}">
+  <label>שם המקום *<input name="name" value="{{ place.name or '' }}" required></label>
+  <label>מילים נרדפות <small>(מופרדות בפסיק, למשל: מעלית, elevator)</small>
+    <input name="aliases" value="{{ place.aliases or '' }}"></label>
+  <label>קומה <input name="floor" value="{{ place.floor or '' }}"></label>
+  <label>הוראות הגעה <small>(מה הרובוט יגיד, משפט או שניים)</small>
+    <textarea name="directions" rows="3">{{ place.directions or '' }}</textarea></label>
+  <label>תנועת הצבעה
+    <select name="gesture_id">
+      <option value="">ללא הצבעה</option>
+      {% for g in gestures %}
+      <option value="{{ g.id }}" {% if place.gesture_id and place.gesture_id|string == g.id|string %}selected{% endif %}>{{ g.name }} ({{ g.id }})</option>
+      {% endfor %}
+    </select></label>
+  <label><input type="checkbox" role="switch" name="is_active" {% if place.is_active %}checked{% endif %}> פעיל</label>
+  <div class="row-actions"><button type="submit">שמירה</button><a href="/places" role="button" class="secondary outline">ביטול</a></div>
+</form>
+{% endblock %}

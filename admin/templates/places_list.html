@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}מקומות{% endblock %}
+{% block content %}
+<div class="page-head"><h2>מקומות</h2><a href="/places/new" role="button">+ מקום חדש</a></div>
+<p>הרובוט מכיר רק מקומות פעילים. אם למקום משויכת תנועה, הרובוט מצביע אליו כשהוא מדבר עליו.</p>
+<table>
+  <thead><tr><th>שם</th><th>מילים נרדפות</th><th>קומה</th><th>תנועת הצבעה</th><th>פעיל</th><th></th></tr></thead>
+  <tbody>
+  {% for p in places %}
+  <tr class="{{ '' if p.is_active else 'inactive' }}">
+    <td><a href="/places/{{ p.id }}">{{ p.name }}</a></td>
+    <td>{{ p.aliases or '' }}</td>
+    <td>{{ p.floor or '' }}</td>
+    <td>{{ p.gesture_name or 'ללא הצבעה' }}</td>
+    <td>{{ 'כן' if p.is_active else 'לא' }}</td>
+    <td><div class="row-actions">
+      <a href="/places/{{ p.id }}" role="button" class="secondary outline">עריכה</a>
+      <form method="post" action="/places/{{ p.id }}/delete" onsubmit="return confirm('למחוק את {{ p.name }}?')">
+        <button class="secondary">מחיקה</button></form>
+    </div></td>
+  </tr>
+  {% else %}<tr><td colspan="6">עדיין אין מקומות.</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

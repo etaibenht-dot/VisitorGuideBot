@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}מאגר ידע{% endblock %}
+{% block content %}
+<div class="page-head"><h2>מאגר ידע</h2><a href="/knowledge/new" role="button">+ פריט חדש</a></div>
+<form method="get" action="/knowledge" class="grid">
+  <select name="category" aria-label="קטגוריה">
+    <option value="">כל הקטגוריות</option>
+    {% for c in categories %}<option value="{{ c.id }}" {% if category == c.id|string %}selected{% endif %}>{{ c.name }}</option>{% endfor %}
+  </select>
+  <input type="search" name="q" value="{{ q }}" placeholder="חיפוש בשאלות ובתשובות">
+  <button type="submit">סינון</button>
+</form>
+<table>
+  <thead><tr><th>קטגוריה</th><th>שאלה / נושא</th><th>תשובה</th><th>פעיל</th><th></th></tr></thead>
+  <tbody>
+  {% for k in items %}
+  <tr class="{{ '' if k.is_active else 'inactive' }}">
+    <td>{{ k.category_name or '—' }}</td>
+    <td><a href="/knowledge/{{ k.id }}">{{ k.question }}</a></td>
+    <td class="wrap">{{ k.answer }}</td>
+    <td>{{ 'כן' if k.is_active else 'לא' }}</td>
+    <td><div class="row-actions">
+      <a href="/knowledge/{{ k.id }}" role="button" class="secondary outline">עריכה</a>
+      <form method="post" action="/knowledge/{{ k.id }}/delete" onsubmit="return confirm('למחוק את הפריט?')">
+        <button class="secondary">מחיקה</button></form>
+    </div></td>
+  </tr>
+  {% else %}<tr><td colspan="5">לא נמצאו פריטים.</td></tr>{% endfor %}
+  </tbody>
+</table>
+
+<details>
+  <summary>ניהול קטגוריות</summary>
+  <table>
+    <thead><tr><th>קטגוריה</th><th>פריטים</th><th></th></tr></thead>
+    <tbody>
+    {% for c in categories %}
+    <tr><td>{{ c.name }}</td><td>{{ c.item_count }}</td>
+      <td><form method="post" action="/categories/{{ c.id }}/delete" class="row-actions" onsubmit="return confirm('למחוק את הקטגוריה {{ c.name }}?')">
+        <button class="secondary">מחיקה</button></form></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <form method="post" action="/categories/new" role="group">
+    <input name="name" placeholder="שם קטגוריה חדשה" required>
+    <button type="submit">הוספה</button>
+  </form>
+</details>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ 'פריט חדש' if is_new else 'עריכת פריט' }}{% endblock %}
+{% block content %}
+<h2>{{ 'פריט ידע חדש' if is_new else 'עריכת פריט ידע' }}</h2>
+{% if from_unanswered %}<p>הפריט נוצר משאלה שהרובוט לא ידע לענות עליה. אחרי השמירה היא תסומן כטופלה.</p>{% endif %}
+<form method="post" action="{{ '/knowledge/new' if is_new else '/knowledge/' ~ item.id }}">
+  <input type="hidden" name="from_unanswered" value="{{ from_unanswered or '' }}">
+  <label>קטגוריה
+    <select name="category_id">
+      <option value="">ללא קטגוריה</option>
+      {% for c in categories %}
+      <option value="{{ c.id }}" {% if item.category_id and item.category_id|string == c.id|string %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select></label>
+  <label>שאלה או נושא *<input name="question" value="{{ item.question or '' }}" required></label>
+  <label>תשובה * <small>(הרובוט יענה על בסיס הטקסט הזה)</small>
+    <textarea name="answer" rows="5" required>{{ item.answer or '' }}</textarea></label>
+  <label><input type="checkbox" role="switch" name="is_active" {% if item.is_active %}checked{% endif %}> פעיל</label>
+  <div class="row-actions"><button type="submit">שמירה</button><a href="/knowledge" role="button" class="secondary outline">ביטול</a></div>
+</form>
+{% endblock %}

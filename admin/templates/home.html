@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>שלום {{ user_name }}</h2>
+<section class="stats">
+  <article><span class="num">{{ counts.places }}</span>מקומות פעילים</article>
+  <article><span class="num">{{ counts.knowledge }}</span>פריטי ידע פעילים</article>
+  <article><span class="num">{{ counts.events_today }}</span>אירועים היום</article>
+  <article><span class="num">{{ counts.unanswered_new }}</span>שאלות חדשות שלא נענו</article>
+</section>
+
+<h3>אירועים שעוד לא הסתיימו היום</h3>
+{% if today %}
+<table>
+  <thead><tr><th>שעה</th><th>כותרת</th><th>מקום</th></tr></thead>
+  <tbody>
+  {% for e in today %}<tr><td>{{ e.start_time }}–{{ e.end_time }}</td><td>{{ e.title }}</td><td>{{ e.place_name or '—' }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% else %}<p>אין אירועים נוספים היום.</p>{% endif %}
+
+<h3>שאלות אחרונות שהרובוט לא ידע לענות עליהן</h3>
+{% if latest %}
+<ul>{% for q in latest %}<li>{{ q.question_text }} <small>({{ q.asked_at.replace('T', ' ') }})</small></li>{% endfor %}</ul>
+<a href="/unanswered">לכל השאלות</a>
+{% else %}<p>אין שאלות חדשות 🎉</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+.flash { background: var(--pico-ins-color); color: #fff; padding: .6rem 1rem; border-radius: var(--pico-border-radius); }
+.error { background: var(--pico-del-color); color: #fff; padding: .6rem 1rem; border-radius: var(--pico-border-radius); }
+.row-actions { display: flex; gap: .5rem; align-items: center; margin: 0; }
+.row-actions form { margin: 0; }
+.row-actions button, .row-actions a[role=button] { padding: .25rem .75rem; margin: 0; font-size: .875rem; width: auto; }
+.inactive { opacity: .5; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+.stats article { text-align: center; margin: 0; }
+.stats .num { font-size: 2rem; font-weight: 700; display: block; }
+.page-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.page-head a[role=button] { width: auto; }
+td.wrap { max-width: 28rem; white-space: pre-wrap; }

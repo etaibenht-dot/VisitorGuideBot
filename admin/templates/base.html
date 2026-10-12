@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ניהול הרובוט המדריך{% endblock %}</title>
+  <link rel="stylesheet" href="/static/pico.min.css">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  {% if user_name %}
+  <header class="container">
+    <nav>
+      <ul><li><strong>🤖 הרובוט המדריך</strong></li></ul>
+      <ul>
+        <li><a href="/" {% if path == '/' %}aria-current="page"{% endif %}>ראשי</a></li>
+        <li><a href="/places" {% if path.startswith('/places') %}aria-current="page"{% endif %}>מקומות</a></li>
+        <li><a href="/knowledge" {% if path.startswith('/knowledge') %}aria-current="page"{% endif %}>מאגר ידע</a></li>
+        <li><a href="/events" {% if path.startswith('/events') %}aria-current="page"{% endif %}>לוח זמנים</a></li>
+        <li><a href="/unanswered" {% if path.startswith('/unanswered') %}aria-current="page"{% endif %}>שאלות שלא נענו</a></li>
+        <li><a href="/users" {% if path.startswith('/users') %}aria-current="page"{% endif %}>משתמשים</a></li>
+        <li><a href="/logout" class="secondary">יציאה</a></li>
+      </ul>
+    </nav>
+  </header>
+  {% endif %}
+  <main class="container">
+    {% if flash %}<p class="flash" role="status">{{ flash }}</p>{% endif %}
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
