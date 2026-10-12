@@ -55,7 +55,7 @@ def test_prompt_contains_the_data():
         "events": [{"start_time": "10:00", "end_time": "10:45", "title": "מבוא למערכות מידע", "lecturer": "ד\"ר כהן",
                     "place_id": 1, "place_name": "מעליות", "description": None}],
     })
-    for needle in ["1 | מעליות", "ארבעה סוגים", "מבוא למערכות מידע", "[PLACE:", "[UNKNOWN]", "[NONE]"]:
+    for needle in ["1 | מעליות", "מצביע: כן", "מצביע: לא", "ארבעה סוגים", "מבוא למערכות מידע", "[PLACE:", "[UNKNOWN]", "[NONE]"]:
         assert needle in prompt
 
 
@@ -80,3 +80,6 @@ def test_staff_edit_reaches_the_next_question():
 def test_prompt_forbids_invented_directions():
     prompt = brain.build_system_prompt({"places": PLACES, "knowledge": [], "events": []})
     assert "בכיוון שאני מצביע אליו" in prompt and "אל תמציא כיוונים" in prompt
+    assert "ואל תגיד שאתה מצביע" in prompt
+    # the secretariat (no gesture) is marked as not pointing
+    assert "2 | מזכירות | - | 1 | מצביע: לא | -" in prompt
