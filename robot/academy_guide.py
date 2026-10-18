@@ -178,7 +178,8 @@ def wait_for_visitor(cap) -> bool:
         if cv2.waitKey(1) & 0xFF == 27:
             return False
         if any(w > FACE_PROXIMITY_THRESHOLD for (_, _, w, _) in faces):
-            return True
+           cv2.destroyWindow("VisitorGuideBot Vision")
+           return True
 
 
 def open_camera():
